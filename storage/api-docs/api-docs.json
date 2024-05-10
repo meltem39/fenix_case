@@ -1,0 +1,337 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Laravel OpenApi Demo Documentation",
+        "description": "L5 Swagger OpenApi description",
+        "contact": {
+            "email": "ozkanmeltem110@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000",
+            "description": "Fenix API Server"
+        }
+    ],
+    "paths": {
+        "/api/user/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "User login/register via device uuid/name",
+                "operationId": "23b0048a1c0736a779d11434f313c5e9",
+                "requestBody": {
+                    "description": "Pet object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "device_uuid": {
+                                        "description": "Device UUID is needed for unique identification for the current user",
+                                        "type": "string",
+                                        "default": "315315"
+                                    },
+                                    "device_name": {
+                                        "description": "device_name is needed if device is being registered for the first time.",
+                                        "type": "string",
+                                        "default": "TEMP NAME"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful login"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/user/chats": {
+            "get": {
+                "tags": [
+                    "Chat"
+                ],
+                "summary": "Get users chat group list",
+                "operationId": "a41c72e37a641d26982ce9f64150d181",
+                "responses": {
+                    "200": {
+                        "description": "Returns Chat Group List"
+                    },
+                    "400": {
+                        "description": "Invalid request"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Chat"
+                ],
+                "summary": "Create a new chat if no chat ids retrievable in the request. If exist insert new chat message into the specified chat group",
+                "operationId": "0f390de21192c0471e73a5666178fb02",
+                "requestBody": {
+                    "description": "Pet object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "message": {
+                                        "description": "Chat message needed to post into chat",
+                                        "type": "text",
+                                        "default": "Default Meesage"
+                                    },
+                                    "chatId": {
+                                        "description": "Chat Id needed to post a new message to the related chat. If not given create a new chat group.",
+                                        "type": "string",
+                                        "default": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Returns chats answer"
+                    },
+                    "300": {
+                        "description": "LIMIT IS FULL"
+                    },
+                    "400": {
+                        "description": "Invalid request"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/user/chats/{chat_id}": {
+            "get": {
+                "tags": [
+                    "Chat"
+                ],
+                "summary": "Get users specific chat details",
+                "operationId": "ca4f41d55a1436b9b87d9729c192bc61",
+                "parameters": [
+                    {
+                        "name": "chat_id",
+                        "in": "path",
+                        "description": "Chat Id needed to retrieve details",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns chat details based on chat id"
+                    },
+                    "400": {
+                        "description": "Invalid request"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/user/packages": {
+            "get": {
+                "tags": [
+                    "Package"
+                ],
+                "summary": "Get a list of packages",
+                "operationId": "0f8fa127bbf7988b38dbcc70c36ef913",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid request"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/user/packages/list": {
+            "get": {
+                "tags": [
+                    "Package"
+                ],
+                "summary": "Get users packages",
+                "operationId": "e82c40412ace3ee09e6af8a71d6a3ea8",
+                "responses": {
+                    "200": {
+                        "description": "Users package history"
+                    },
+                    "300": {
+                        "description": "If users package history is empty"
+                    },
+                    "400": {
+                        "description": "Invalid request"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/user/packages/subscription": {
+            "post": {
+                "tags": [
+                    "Package"
+                ],
+                "summary": "User purchase a package",
+                "operationId": "1352bd1ee106bd401e07c3a39de68fcc",
+                "requestBody": {
+                    "description": "Pet object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "receiptToken": {
+                                        "description": "AppStore Receipt token is needed to fullfil payment request",
+                                        "type": "string",
+                                        "default": "TEST TOKEN"
+                                    },
+                                    "productId": {
+                                        "description": "Product id is needed to determine which package is purchased.",
+                                        "type": "string",
+                                        "default": "3"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful purchase"
+                    },
+                    "300": {
+                        "description": "Can not buy free package"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "requestBodies": {
+            "body": {
+                "description": "Pet object that needs to be added to the store",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "device_uuid": {
+                                    "description": "Device UUID is needed for unique identification for the current user",
+                                    "type": "string",
+                                    "default": "315315"
+                                },
+                                "device_name": {
+                                    "description": "device_name is needed if device is being registered for the first time.",
+                                    "type": "string",
+                                    "default": "TEMP NAME"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "chats_body": {
+                "description": "Pet object that needs to be added to the store",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "message": {
+                                    "description": "Chat message needed to post into chat",
+                                    "type": "text",
+                                    "default": "Default Meesage"
+                                },
+                                "chatId": {
+                                    "description": "Chat Id needed to post a new message to the related chat. If not given create a new chat group.",
+                                    "type": "string",
+                                    "default": "1"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "package_body": {
+                "description": "Pet object that needs to be added to the store",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "receiptToken": {
+                                    "description": "AppStore Receipt token is needed to fullfil payment request",
+                                    "type": "string",
+                                    "default": "TEST TOKEN"
+                                },
+                                "productId": {
+                                    "description": "Product id is needed to determine which package is purchased.",
+                                    "type": "string",
+                                    "default": "3"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "name": "sanctum",
+                "in": "header",
+                "bearerFormat": "sanctum",
+                "scheme": "bearer"
+            }
+        }
+    }
+}
